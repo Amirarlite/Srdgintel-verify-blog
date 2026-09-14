@@ -1,0 +1,20 @@
+---
+// Renders once, site-wide, in BaseLayout. Update logo/sameAs once social profiles exist.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'SRDG Intel',
+  url: Astro.site?.toString(),
+  logo: new URL('/logo.png', Astro.site).toString(),
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'SRDG',
+    url: 'https://srdgintel.com',
+  },
+  sameAs: [
+    // 'https://x.com/srdgintel',
+    // 'https://linkedin.com/company/srdgintel',
+  ],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

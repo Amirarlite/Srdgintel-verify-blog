@@ -1,0 +1,51 @@
+---
+import OrganizationSchema from '../components/seo/OrganizationSchema.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+const { title, description = 'Verified news and government affairs reporting from SRDG Intel.', image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} · SRDG Intel</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <OrganizationSchema />
+</head>
+<body>
+  <header class="masthead">
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; padding: 0.75rem 1.25rem;">
+      <a href="/" style="color:#fff; font-family: var(--font-ui); font-weight:600; font-size:1.1rem; letter-spacing:0.5px;">SRDG INTEL</a>
+      <nav>
+        <a href="/columns/news">News</a>
+        <a href="/columns/government-affairs">Government affairs</a>
+        <a href="/columns/verified" style="color: var(--color-verified) !important;">Verified</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container" style="padding: 2rem 1.25rem;">
+    <slot />
+  </main>
+</body>
+</html>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import NewsArticleSchema from '../components/seo/NewsArticleSchema.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import FAQSchema from '../components/seo/FAQSchema.astro';
+
+interface FaqItem { question: string; answer: string; }
+interface Props {
+  title: string;
+  dek?: string;
+  column: string;
+  author: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  verified: boolean;
+  slug: string;
+  faq?: FaqItem[];
+}
+const { title, dek, column, author, pubDate, updatedDate, heroImage, verified, slug, faq = [] } = Astro.props;
+
+const columnLabel: Record<string, string> = {
+  news: 'News',
+  'government-affairs': 'Government affairs',
+  verified: 'Verified',
+};
+---
+<BaseLayout title={title} description={dek} image={heroImage}>
+  <NewsArticleSchema title={title} dek={dek} author={author} pubDate={pubDate} updatedDate={updatedDate} heroImage={heroImage} slug={slug} />
+  <BreadcrumbSchema crumbs={[
+    { name: 'Home', path: '/' },
+    { name: columnLabel[column] ?? column, path: `/columns/${column}` },
+    { name: title, path: `/articles/${slug}` },
+  ]} />
+  {faq.length > 0 && <FAQSchema faq={faq} />}
+
+  <article>
+    {verified && <span class="eyebrow">Fact-checked</span>}
+    <h1>{title}</h1>
+    {dek && <p style="font-family: var(--font-ui); color: var(--color-ink); opacity: 0.65;">{dek}</p>}
+    <p style="font-family: var(--font-ui); font-size: 0.8rem; opacity: 0.55;">
+      By {author} · {pubDate.toDateString()}
+    </p>
+
+    <div class="content">
+      <slot />
+    </div>
+
+    {faq.length > 0 && (
+      <section style="margin-top: 3rem;">
+        <h2>Frequently asked</h2>
+        {faq.map((item) => (
+          <div class="card" style="margin-bottom: 0.75rem;">
+            <strong>{item.question}</strong>
+            <p style="margin: 0.5rem 0 0;">{item.answer}</p>
+          </div>
+        ))}
+      </section>
+    )}
+  </article>
+</BaseLayout>
