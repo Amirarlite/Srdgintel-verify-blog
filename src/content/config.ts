@@ -11,6 +11,7 @@ const articles = defineCollection({
     author: z.string().default('SRDG Intel Staff'),
     heroImage: z.string().optional(),
     verified: z.boolean().default(false),
+    tags: z.array(z.string()).optional(),
     // Each entry becomes one Question/acceptedAnswer pair in the page's FAQPage JSON-LD
     faq: z
       .array(

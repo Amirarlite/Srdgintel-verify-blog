@@ -6,9 +6,11 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  tags?: string[];
 }
-const { title, description = 'Verified news and government affairs reporting from SRDG Intel.', image } = Astro.props;
+const { title, description = 'Verified news and government affairs reporting from SRDG Intel.', image, tags = [] } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImage = new URL(image ?? '/logo.svg', Astro.site);
 ---
 <!doctype html>
 <html lang="en">
@@ -18,23 +20,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="color-scheme" content="light" />
   <title>{title} · SRDG Intel</title>
   <meta name="description" content={description} />
+  {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="alternate" type="application/rss+xml" title="SRDG Intel" href="/rss.xml" />
   <link rel="canonical" href={canonicalURL} />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
-  {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+  <meta property="og:image" content={socialImage} />
 
-  <!-- Twitter -->
-  <meta property="og:image" content={new URL('/logo.svg', Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content={new URL('/logo.svg', Astro.site)} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={socialImage} />
 
   <OrganizationSchema />
 </head>
