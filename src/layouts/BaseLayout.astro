@@ -18,6 +18,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="color-scheme" content="light" />
   <title>{title} · SRDG Intel</title>
   <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="alternate" type="application/rss+xml" title="SRDG Intel" href="/rss.xml" />
   <link rel="canonical" href={canonicalURL} />
 
   <!-- Open Graph -->
@@ -28,7 +30,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
 
   <!-- Twitter -->
+  <meta property="og:image" content={new URL('/logo.svg', Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={new URL('/logo.svg', Astro.site)} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
 
