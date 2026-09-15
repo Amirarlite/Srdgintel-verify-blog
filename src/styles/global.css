@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --color-ink: #10233b;      /* headlines, body text, logo */
   --color-verified: #a9740a; /* links, tags, verify mark — the only accent */
   --color-page: #f4f1ea;     /* page background */
