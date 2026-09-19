@@ -22,6 +22,8 @@ const socialImage = new URL(image ?? '/logo.svg', Astro.site);
   <meta name="description" content={description} />
   {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="alternate" type="application/rss+xml" title="SRDG Intel" href="/rss.xml" />
   <link rel="canonical" href={canonicalURL} />
 
@@ -41,7 +43,13 @@ const socialImage = new URL(image ?? '/logo.svg', Astro.site);
 <body>
   <header class="masthead">
     <div class="container" style="display:flex; align-items:center; justify-content:space-between; padding: 0.75rem 1.25rem;">
-      <a href="/" style="color:#fff; font-family: var(--font-ui); font-weight:600; font-size:1.1rem; letter-spacing:0.5px;">SRDG INTEL</a>
+      <a href="/" style="color:#fff; display:flex; align-items:center; gap:8px; font-family: var(--font-ui); font-weight:600; font-size:1.1rem; letter-spacing:0.5px;">
+        <svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points="50,6 92,22 92,50 92,74 74,90 50,96 26,90 8,74 8,50 8,22" fill="#ffffff" opacity="0.12"/>
+          <polyline points="30,50 44,64 72,32" fill="none" stroke="#A9740A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        SRDG INTEL
+      </a>
       <nav>
         <a href="/columns/news">News</a>
         <a href="/columns/government-affairs">Government affairs</a>

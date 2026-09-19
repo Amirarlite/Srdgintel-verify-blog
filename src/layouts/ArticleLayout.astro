@@ -47,6 +47,25 @@ const columnLabel: Record<string, string> = {
       <slot />
     </div>
 
+    <div style="display:flex; gap:0.75rem; margin: 1.5rem 0; font-family: var(--font-ui);">
+      <button id="share-btn" style="background:var(--color-ink); color:#fff; border:none; padding:8px 16px; border-radius:6px; font-size:0.85rem; cursor:pointer;">
+        Share
+      </button>
+    </div>
+    <script define:vars={{ pageTitle: title }}>
+      const btn = document.getElementById('share-btn');
+      btn?.addEventListener('click', async () => {
+        const shareData = { title: pageTitle, url: window.location.href };
+        if (navigator.share) {
+          try { await navigator.share(shareData); } catch (e) {}
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          btn.textContent = 'Link copied';
+          setTimeout(() => (btn.textContent = 'Share'), 1500);
+        }
+      });
+    </script>
+
     {faq.length > 0 && (
       <section style="margin-top: 3rem;">
         <h2>Frequently asked</h2>
@@ -58,5 +77,25 @@ const columnLabel: Record<string, string> = {
         ))}
       </section>
     )}
+
+    <section style="margin-top: 3rem;">
+      <h2>Comments</h2>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="Amirarlite/Srdgintel-verify-blog"
+        data-repo-id="PASTE_FROM_GISCUS_APP"
+        data-category="Comments"
+        data-category-id="PASTE_FROM_GISCUS_APP"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async
+      ></script>
+    </section>
   </article>
 </BaseLayout>
