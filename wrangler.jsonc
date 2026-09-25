@@ -3,6 +3,13 @@
   "compatibility_date": "2026-09-15",
   "compatibility_flags": ["nodejs_compat"],
   "main": "dist/_worker.js/index.js",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "srdgintel-comments",
+      "database_id": "3fde5872-b548-4837-ac9a-2fc084335d48"
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist"
