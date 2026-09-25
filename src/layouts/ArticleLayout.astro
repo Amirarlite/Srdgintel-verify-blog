@@ -78,24 +78,83 @@ const columnLabel: Record<string, string> = {
       </section>
     )}
 
-    <section style="margin-top: 3rem;">
+    <section style="margin-top: 3rem; font-family: var(--font-ui);">
       <h2>Comments</h2>
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="Amirarlite/Srdgintel-verify-blog"
-        data-repo-id="R_kgDOUbItEQ"
-        data-category="Comment"
-        data-category-id="DIC_kwDOUbItEc4DGWbQ"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light"
-        data-lang="en"
-        crossorigin="anonymous"
-        async
-      ></script>
+      <div id="comment-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.5rem;">
+        <p style="opacity:0.5; font-size:0.85rem;">Loading comments…</p>
+      </div>
+
+      <form id="comment-form" style="display:flex; flex-direction:column; gap:0.5rem;">
+        <input type="text" name="website" style="position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" />
+        <input type="text" name="name" placeholder="Name" required maxlength="80"
+          style="padding:10px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit;" />
+        <textarea name="body" placeholder="Add a comment" required maxlength="2000" rows="3"
+          style="padding:10px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; resize:vertical;"></textarea>
+        <button type="submit" style="align-self:flex-start; background:var(--color-verified); color:#fff; border:none; padding:8px 18px; border-radius:6px; font-size:0.85rem; cursor:pointer;">
+          Post comment
+        </button>
+        <p id="comment-status" style="font-size:0.8rem; opacity:0.6; margin:0;"></p>
+      </form>
     </section>
+
+    <script define:vars={{ slug }}>
+      const listEl = document.getElementById('comment-list');
+      const formEl = document.getElementById('comment-form');
+      const statusEl = document.getElementById('comment-status');
+
+      function renderComments(comments) {
+        if (!comments.length) {
+          listEl.innerHTML = '<p style="opacity:0.5; font-size:0.85rem;">No comments yet — be the first.</p>';
+          return;
+        }
+        listEl.innerHTML = comments.map((c) => `
+          <div class="card">
+            <strong>${escapeHtml(c.name)}</strong>
+            <p style="margin:0.35rem 0 0; white-space:pre-wrap;">${escapeHtml(c.body)}</p>
+            <p style="margin:0.35rem 0 0; font-size:0.75rem; opacity:0.5;">${new Date(c.created_at).toLocaleDateString()}</p>
+          </div>
+        `).join('');
+      }
+
+      function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+      }
+
+      async function loadComments() {
+        try {
+          const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`);
+          renderComments(await res.json());
+        } catch (e) {
+          listEl.innerHTML = '<p style="opacity:0.5; font-size:0.85rem;">Couldn\'t load comments.</p>';
+        }
+      }
+
+      formEl?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(formEl);
+        statusEl.textContent = 'Posting…';
+        const res = await fetch('/api/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            slug,
+            name: fd.get('name'),
+            body: fd.get('body'),
+            website: fd.get('website'),
+          }),
+        });
+        if (res.ok) {
+          formEl.reset();
+          statusEl.textContent = '';
+          loadComments();
+        } else {
+          statusEl.textContent = 'Something went wrong — try again.';
+        }
+      });
+
+      loadComments();
+    </script>
   </article>
 </BaseLayout>
