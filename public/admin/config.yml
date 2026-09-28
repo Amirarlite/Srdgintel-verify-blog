@@ -1,0 +1,56 @@
+backend:
+  name: github
+  repo: Amirarlite/srdgintel-verify-blog
+  branch: main
+  auth_type: pkce
+  app_id: Iv1.1234567890abcdef
+  base_url: https://decap-auth.eliteevault.workers.dev
+  auth_endpoint: /auth
+
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "articles"
+    label: "Articles"
+    label_singular: "Article"
+    folder: "src/content/articles"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    summary: "{{title}} — {{column}}"
+    sortable_fields: ['pubDate', 'title', 'column']
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Dek (Subtitle)", name: "dek", widget: "text" }
+      - label: "Column (Category)"
+        name: "column"
+        widget: "select"
+        options:
+          - { label: "Government Affairs", value: "government-affairs" }
+          - { label: "Economy", value: "economy" }
+          - { label: "Security", value: "security" }
+          - { label: "Technology", value: "technology" }
+          - { label: "Foreign Policy", value: "foreign-policy" }
+          - { label: "Society", value: "society" }
+          - { label: "Energy", value: "energy" }
+        default: "government-affairs"
+      - { label: "Publish Date", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Author", name: "author", widget: "string", default: "SRDG Intel Staff" }
+      - { label: "Verified", name: "verified", widget: "boolean", default: true }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        default: ["Nigeria"]
+      - label: "FAQ"
+        name: "faq"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Question", name: "question", widget: "string" }
+          - { label: "Answer", name: "answer", widget: "text" }
+      - { label: "Body (Article Content)", name: "body", widget: "markdown" }
