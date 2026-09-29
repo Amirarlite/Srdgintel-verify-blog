@@ -4,7 +4,7 @@ export default {
 
     if (url.pathname === '/auth') {
       const authorizeUrl = new URL('https://github.com/login/oauth/authorize');
-      authorizeUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
+      authorizeUrl.searchParams.set('client_id', 'Ov23li0C6ebJtyGPG1He');
       authorizeUrl.searchParams.set('redirect_uri', `${url.origin}/callback`);
       authorizeUrl.searchParams.set('scope', 'repo,user');
       authorizeUrl.searchParams.set('state', crypto.randomUUID());
@@ -19,7 +19,7 @@ export default {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          client_id: env.GITHUB_CLIENT_ID,
+          client_id: 'Ov23li0C6ebJtyGPG1He',
           client_secret: env.GITHUB_CLIENT_SECRET,
           code,
         }),
