@@ -2,10 +2,9 @@ backend:
   name: github
   repo: Amirarlite/srdgintel-verify-blog
   branch: main
-  auth_type: pkce
-  app_id: Ov23li0C6ebJtyGPG1He
   base_url: https://decap-auth.eliteevault.workers.dev
   auth_endpoint: /auth
+
 
 publish_mode: editorial_workflow
 
